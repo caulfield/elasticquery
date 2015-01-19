@@ -37,20 +37,20 @@ class TestQueriesInheritence < MiniTest::Test
   def test_parent_subqueries_builder
     query = ParentPostQuery.new @params
     actual = query.build
-    expected = {:"category.id" => 1}
+    expected = [{term: {:"category.id" => 1}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 
   def test_child_query_builder
     query = ChildPostQuery.new @params
     actual = query.build
-    expected = {:"category.id" => 1, :"author.name" => 'Sergey'}
+    expected = [{term: {:"category.id" => 1}}, {term: {:"author.name" => 'Sergey'}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 
   def test_concatenate_all_filters
     actual = MultipleFilteredQuery.new(@params).build
-    expected = {:"category.id" => 1, :"author.name" => 'Sergey'}
+    expected = [{term: {:"category.id" => 1}}, {term: {:"author.name" => 'Sergey'}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 
@@ -58,7 +58,7 @@ class TestQueriesInheritence < MiniTest::Test
     params = { category_id: 1, author_name: 'Sergey', category_id_new: 14 }
     query = ChildOverrideQuery.new params
     actual = query.build
-    expected = {:"category.id" => 14}
+    expected = [{term: {:"category.id" => 14}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 end

@@ -19,6 +19,11 @@ class TestBase < MiniTest::Test
     refute klass.new.filterable?
   end
 
+  def test_filters_is_empty_by_default
+    query = Elasticquery::Base.new
+    assert_empty query.filters
+  end
+
   def test_extract_params
     query = @klass.new a: 1
     assert_equal 1, query.params[:a]
@@ -51,5 +56,11 @@ class TestBase < MiniTest::Test
     klass.filtered { _error_ }
 
     assert_raises(StandardError) { klass.new.build }
+  end
+
+  def test_build_should_build_on_instance
+    @klass.stub :build, {query: 1} do
+      assert_equal @klass.build({a: 1}), query: 1
+    end
   end
 end
