@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Elasticquery::VERSION
   spec.authors       = ["Sergey Kuchmistov"]
   spec.email         = ["sergey.kuchmistov@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Elasticsearch query builder.}
+  spec.description   = %q{Powerful and flexibal query factory for you elasticsearch&ruby application}
+  spec.homepage      = "https://github.com/caulfield/elasticquery"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
