@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Sergey Kuchmistov"]
   spec.email         = ["sergey.kuchmistov@gmail.com"]
   spec.summary       = %q{Elasticsearch query builder.}
-  spec.description   = %q{Powerful and flexibal query factory for you elasticsearch&ruby application}
+  spec.description   = %q{Powerful and flexible elasticsearch query factory for you ruby application}
   spec.homepage      = "https://github.com/caulfield/elasticquery"
   spec.license       = "MIT"
 
