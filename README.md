@@ -85,7 +85,7 @@ end
 ChildQuery.build({user_id: 1, category_id: 14}) => # ;)
 
 ```
-- Query inheritence
+- Query inheritance
 ```ruby
 class ParentQuery < Elasticquery::Base
   filtered do |params|
