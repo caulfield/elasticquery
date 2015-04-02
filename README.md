@@ -23,7 +23,7 @@ gem install elasticquery
 ## Getting Started
 ### First instruction
 
-Elasticsearch was designed to be customized as you need to. Providing simple methods it allows you to build power and flexible form objects. For example:
+Elasticquery was designed to be customized as you need to. Providing simple methods it allows you to build power and flexible form objects. Simplicity - is the main goal. For example:
 
 ```ruby
 class MyQuery < Elasticquery::Base
