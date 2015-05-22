@@ -1,11 +1,11 @@
 require 'active_support/core_ext/class/attribute'
 require 'elasticquery/query'
-require 'elasticquery/queries/all'
+require 'elasticquery/builder'
 
 # Base class for query builder. Superclass of your all builders
 module Elasticquery
   class Base
-    include Elasticquery::Queries::All
+    include Elasticquery::Builder
 
     class_attribute :filters
     attr_reader :params, :query

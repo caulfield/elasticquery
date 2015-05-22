@@ -148,6 +148,9 @@ range :volume, gte: 1, lte: 100
 
 # Range exclusion
 range.not :size, gte: 32, lte: 128
+
+# _cache and execution options support
+range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
 ```
 
 ## Contributing

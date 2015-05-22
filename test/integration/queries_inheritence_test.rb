@@ -24,12 +24,6 @@ class TestQueriesInheritence < MiniTest::Test
     end
   end
 
-  class ChildOverrideQuery < ParentPostQuery
-    filtered do |params|
-      term :'category.id' => params[:category_id_new]
-    end
-  end
-
   def setup
     @params = {category_id: 1, author_name: 'Sergey'}
   end
@@ -51,14 +45,6 @@ class TestQueriesInheritence < MiniTest::Test
   def test_concatenate_all_filters
     actual = MultipleFilteredQuery.new(@params).build
     expected = [{term: {:"category.id" => 1}}, {term: {:"author.name" => 'Sergey'}}]
-    assert_equal expected, actual[:query][:filtered][:filter][:and]
-  end
-
-  def test_override_same_keys
-    params = { category_id: 1, author_name: 'Sergey', category_id_new: 14 }
-    query = ChildOverrideQuery.new params
-    actual = query.build
-    expected = [{term: {:"category.id" => 14}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 end

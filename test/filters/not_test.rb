@@ -20,13 +20,13 @@ class NotFilter < MiniTest::Test
   def test_to_hash_change_last_term_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    filter_class.expect :to_hash, {query: {filtered: {filter: {and: {term: {a: 1, b: 2}}}}}}
+    filter_class.expect :to_hash, {query: {filtered: {filter: {and: [{term: {a: 1, b: 2}}]}}}}
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
     @filters = [previous_filter]
     result = instance_exec &@filter.to_hash
-    assert_equal result, query: {filtered: {filter: {and: {not: {filter: {term: {a: 1, b: 2}}}}}}}
+    assert_equal result, query: {filtered: {filter: {and: [{not: {filter: {term: {a: 1, b: 2}}}}]}}}
 
     assert filter_class.verify
     assert previous_filter.verify
@@ -35,13 +35,13 @@ class NotFilter < MiniTest::Test
   def test_to_hash_change_last_range_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    filter_class.expect :to_hash, {query: {filtered: {filter: {and: {range: {a: {lte: 1}}}}}}}
+    filter_class.expect :to_hash, {query: {filtered: {filter: {and: [{range: {a: {lte: 1}}}]}}}}
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
     @filters = [previous_filter]
     result = instance_exec &@filter.to_hash
-    assert_equal result, query: {filtered: {filter: {and: {not: {filter: {range: {a: {lte: 1}}}}}}}}
+    assert_equal result, query: {filtered: {filter: {and: [{not: {filter: {range: {a: {lte: 1}}}}}]}}}
 
     assert filter_class.verify
     assert previous_filter.verify

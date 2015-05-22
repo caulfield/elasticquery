@@ -18,8 +18,8 @@ module Elasticquery
           filter = filters.last.dup_with condition
           if filter.valid?
             subquery = filter.to_hash
-            q = subquery[:query][:filtered][:filter][:and]
-            {query: {filtered: {filter: {and: {not: {filter: q}}}}}}
+            q = subquery[:query][:filtered][:filter][:and][0]
+            {query: {filtered: {filter: {and: [{not: {filter: q}}]}}}}
           else
             {}
           end
