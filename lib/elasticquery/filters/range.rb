@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module Elasticquery
   module Filters
@@ -15,7 +15,11 @@ module Elasticquery
       end
 
       def to_hash
-        valid? ? {query: {filtered: {filter: {and: [{range: range_with_options}]}}}} : {}
+        if valid?
+          {query: {filtered: {filter: {and: [{range: range_with_options}]}}}}
+        else
+          {}
+        end
       end
 
       private

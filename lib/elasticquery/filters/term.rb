@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module Elasticquery
   module Filters
@@ -36,7 +36,11 @@ module Elasticquery
       #   r = Elasticquery::filters::Term.new { name: "John" }
       #   r.to_hash #=> {query: {filtered: {filter: {and: {name: 'John'}}}}}
       def to_hash
-        valid? ? {query: {filtered: {filter: {and: [{term: @condition.merge(@options)}]}}}} : {}
+        if valid?
+          {query: {filtered: {filter: {and: [{term: @condition.merge(@options)}]}}}}
+        else
+          {}
+        end
       end
 
       def extract_options!

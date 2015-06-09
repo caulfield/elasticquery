@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery'
+require "test_helper"
+require "elasticquery"
 
 class TestRangeCase < MiniTest::Test
   class HumanQuery < Elasticquery::Base

@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery'
+require "test_helper"
+require "elasticquery"
 
 class TestNotCase < MiniTest::Test
   class PostQuery < Elasticquery::Base

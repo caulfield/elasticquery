@@ -3,7 +3,7 @@
 * Create `history.md` file
 
 * Add options support for `range` and `term`.
-`term` supports `_cache` option. `range` supports both `_cahce` and `execution`
+`term` supports `_cache` option. `range` supports both `_cache` and `execution`
 
 ## Elasticquery 0.1.1 (02 Mar 2015)
 

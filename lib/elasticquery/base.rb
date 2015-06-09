@@ -1,6 +1,6 @@
-require 'active_support/core_ext/class/attribute'
-require 'elasticquery/query'
-require 'elasticquery/builder'
+require "active_support/core_ext/class/attribute"
+require "elasticquery/query"
+require "elasticquery/builder"
 
 # Base class for query builder. Superclass of your all builders
 module Elasticquery

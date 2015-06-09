@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery/query'
+require "test_helper"
+require "elasticquery/query"
 
 class TestQuery < MiniTest::Test
 

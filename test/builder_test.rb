@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery/builder'
+require "test_helper"
+require "elasticquery/builder"
 
 class TestAllBaseQueries < MiniTest::Test
   include Elasticquery::Builder

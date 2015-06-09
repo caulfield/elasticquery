@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module Elasticquery
   module Filters
@@ -9,7 +9,7 @@ module Elasticquery
       end
 
       def dup_with(*args)
-        raise StandardError, 'Cannot use Filters::Not twice'
+        raise StandardError, "Cannot use Filters::Not twice"
       end
 
       def to_hash

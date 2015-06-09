@@ -1,10 +1,10 @@
-require 'elasticquery/filters/term'
-require 'elasticquery/filters/search'
-require 'elasticquery/filters/not'
-require 'elasticquery/filters/range'
+require "elasticquery/filters/term"
+require "elasticquery/filters/search"
+require "elasticquery/filters/not"
+require "elasticquery/filters/range"
 
-require 'active_support/concern'
-require 'active_support/core_ext/string/inflections'
+require "active_support/concern"
+require "active_support/core_ext/string/inflections"
 
 module Elasticquery
   module Builder

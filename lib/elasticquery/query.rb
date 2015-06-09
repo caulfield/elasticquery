@@ -1,4 +1,4 @@
-require 'deep_merge/rails_compat'
+require "deep_merge/rails_compat"
 
 module Elasticquery
   class Query

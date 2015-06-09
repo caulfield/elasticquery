@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery/base'
+require "test_helper"
+require "elasticquery/base"
 
 class TestBase < MiniTest::Test
 
@@ -52,7 +52,7 @@ class TestBase < MiniTest::Test
 
   def test_should_execute_code_in_instance_context
     klass = Class.new(Elasticquery::Base)
-    klass.send(:define_method, :_error_) { raise StandardError, 'from instance context'}
+    klass.send(:define_method, :_error_) { raise StandardError, "from instance context"}
     klass.filtered { _error_ }
 
     assert_raises(StandardError) { klass.new.build }

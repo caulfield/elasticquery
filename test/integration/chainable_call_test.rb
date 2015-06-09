@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery'
+require "test_helper"
+require "elasticquery"
 
 class TestChainableCalls < MiniTest::Test
 
@@ -17,12 +17,12 @@ class TestChainableCalls < MiniTest::Test
   end
 
   def test_with_not_filter
-    query = @query.search('hi').term.not(a: 1, _cache: true)
+    query = @query.search("hi").term.not(a: 1, _cache: true)
     assert_equal query.build, {query: {filtered: {query: {multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "hi"}}, filter: {and: [{not: {filter: {term: {a: 1, _cache: true}}}}]}}}}
   end
 
   def test_apply_kinds_of_query
-    query = @query.term(a: 1).search('hello', operator: 'or').build
+    query = @query.term(a: 1).search("hello", operator: "or").build
     terms = query[:query][:filtered][:filter][:and]
     search = query[:query][:filtered][:query][:multi_match]
     assert_equal terms, [{term: {a: 1}}]
