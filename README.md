@@ -148,12 +148,10 @@ range :volume, gte: 1, lte: 100
 
 # Range exclusion
 range.not :size, gte: 32, lte: 128
+
+# _cache and execution options support
+range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
 ```
-
-## Contributing
-1. I'm happy to see any method you can be part of this.
-
-
 [elasticsearch_rails]: https://github.com/elasticsearch/elasticsearch-rails
 [demo]: http://elasticquery-demo.herokuapp.com
 [bundler]: http://bundler.io/

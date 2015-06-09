@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'elasticquery/query'
+require "test_helper"
+require "elasticquery/query"
 
 class TestQuery < MiniTest::Test
 
@@ -46,13 +46,22 @@ class TestQuery < MiniTest::Test
   end
 
   def test_should_group_filters_in_array
-    @rule.expect :to_hash, query: {filtered: {filter: {and: {term: {a: 1, b: 2}}}}}
+    @rule.expect :to_hash, query: {filtered: {filter: {and: [{term: {a: 1, _cache: true}}]}}}
     @query << @rule
-    @rule.expect :to_hash, query: {filtered: {filter: {and: {term: {c: 3}}}}}
+    @rule.expect :to_hash, query: {filtered: {filter: {and: [{term: {c: 3}}]}}}
     @query << @rule
-    @rule.expect :to_hash, query: {filtered: {filter: {and: {range: {x: 3}}}}}
+    @rule.expect :to_hash, query: {filtered: {filter: {and: [{range: {x: 3}}]}}}
     @query << @rule
-    expected = {query: {filtered: {filter: {and: [{term: {a: 1}}, {term: {b: 2}}, {term: {c: 3}}, {range: {x: 3}}]}}}}
+    expected = {query: {filtered: {filter: {and: [{term: {a: 1, _cache: true}}, {term: {c: 3}}, {range: {x: 3}}]}}}}
+    assert_equal(expected, @query.to_hash)
+  end
+
+  def test_should_group_multiple_terms_conditions
+    @rule.expect :to_hash, query: {filtered: {filter: {and: [{terms: {a: %w(a b c)}}]}}}
+    @query << @rule
+    @rule.expect :to_hash, query: {filtered: {filter: {and: [{terms: {c: %w(x y z), execution: "bool"}}]}}}
+    @query << @rule
+    expected = {query: {filtered: {filter: {and: [{terms: {a: %w(a b c)}}, {terms: {c: %w(x y z), execution: "bool"}}]}}}}
     assert_equal(expected, @query.to_hash)
   end
 

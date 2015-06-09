@@ -1,8 +1,8 @@
-require 'test_helper'
-require 'elasticquery/queries/all'
+require "test_helper"
+require "elasticquery/builder"
 
 class TestAllBaseQueries < MiniTest::Test
-  include Elasticquery::Queries::All
+  include Elasticquery::Builder
 
   attr_accessor :query
 

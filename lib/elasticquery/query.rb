@@ -1,4 +1,4 @@
-require 'active_support/core_ext/hash/deep_merge'
+require "deep_merge/rails_compat"
 
 module Elasticquery
   class Query
@@ -22,16 +22,7 @@ module Elasticquery
     #
     # @return [Hash] hash presentation of query
     def to_hash
-      q = @query.dup
-      if Enumerable === _filters
-        flatted_filters = _filters.flat_map do |type, filters|
-          filters.flat_map do |key, value|
-            {type => {key => value}}
-          end
-        end
-        q[:query][:filtered][:filter][:and] = flatted_filters
-      end
-      q
+      @query
     end
 
     # Merge filter to query. If current query is `matche_all`ed
@@ -59,7 +50,7 @@ module Elasticquery
     def merge(filter)
       hash = filter.to_hash
       subquery = hash.respond_to?(:call) ? instance_exec(&hash) : hash
-      @query.deep_merge! subquery
+      @query.deeper_merge! subquery
     end
 
     def _filters
