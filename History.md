@@ -12,4 +12,4 @@
 
 ## Elasticquery 0.1.0 (02 Mar 2015)
 
-* Initial version. Supported filters: `term`, `range`, `term.not`, `range.not`.
+* Initial version. Supported filters: `term`, `range`, `term.not`, `range.not`. Support multi match query. Simple inheritence support. Chain calls.
