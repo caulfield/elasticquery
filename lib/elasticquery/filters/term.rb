@@ -5,8 +5,7 @@ module Elasticquery
     class Term < Base
       OPTIONS = %i(_cache)
 
-      # Create filtered -> filter filter for elasticsearch
-      # builder
+      # Create term filter for elasticsearch builder
       #
       # @param [Hash] condition passed to define
       #
@@ -33,8 +32,8 @@ module Elasticquery
       # @return [Hash] presentation of filter.
       #
       # @example
-      #   r = Elasticquery::filters::Term.new { name: "John" }
-      #   r.to_hash #=> {query: {filtered: {filter: {and: {name: 'John'}}}}}
+      #   valid = Elasticquery::Filters::Term.new {name: "John"}
+      #   valid.to_hash #=> {query: {filtered: {filter: {and: [{term: {name: 'John'}}]}}}
       def to_hash
         if valid?
           {query: {filtered: {filter: {and: [{term: @condition.merge(@options)}]}}}}
@@ -42,6 +41,8 @@ module Elasticquery
           {}
         end
       end
+
+      private
 
       def extract_options!
         @options = @condition.extract! *OPTIONS
