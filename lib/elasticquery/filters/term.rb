@@ -10,9 +10,9 @@ module Elasticquery
       # @param [Hash] condition passed to define
       #
       # @see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-filtered-query.html#_filtering_without_a_query
-      def initialize(condition={})
-        @condition = condition
-        extract_options!
+      def initialize(data={})
+        @options = data.extract! *OPTIONS
+        @condition = data
       end
 
       # Is passed condition valid. Passed condition must have
@@ -40,12 +40,6 @@ module Elasticquery
         else
           {}
         end
-      end
-
-      private
-
-      def extract_options!
-        @options = @condition.extract! *OPTIONS
       end
     end
   end

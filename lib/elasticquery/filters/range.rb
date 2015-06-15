@@ -6,8 +6,8 @@ module Elasticquery
       OPTIONS = %i(_cache execution)
 
       def initialize(field, gte: nil, lte: nil, **options)
-        @field, @gte, @lte = field, gte, lte
         @options = options.extract! *OPTIONS
+        @field, @gte, @lte = field, gte, lte
       end
 
       def valid?
