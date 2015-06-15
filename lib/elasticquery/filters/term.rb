@@ -16,7 +16,7 @@ module Elasticquery
       end
 
       # Is passed condition valid. Passed condition must have
-      # one key
+      # one key and present value
       # 
       # @return [Boolean] is condition have at least one key
       #
@@ -24,7 +24,7 @@ module Elasticquery
       #   rule = Elasticquery::Rules::Term.new
       #   rule.valid? #=> false
       def valid?
-        @condition.keys.size == 1
+        @condition.keys.size == 1 && @condition.values[0].present?
       end
 
       # Hash presentation of query.

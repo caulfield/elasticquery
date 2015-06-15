@@ -33,6 +33,12 @@ class TestSearchQueryCase < MiniTest::Test
     assert_equal expected_search, actual[:query][:filtered][:query][:multi_match]
   end
 
+  def test_empty_search
+    params = {search: "" , fields: %w(title body), operator: "or"}
+    actual = PostOptionsQuery.new(params).build
+    assert_equal Elasticquery::Query::DEFAULT, actual
+  end
+
   def test_all_options_to_configure
     params = {search: "hello", fields: %w(title body), operator: "or"}
     actual = PostOptionsQuery.new(params).build

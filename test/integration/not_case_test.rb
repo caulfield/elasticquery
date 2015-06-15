@@ -11,7 +11,7 @@ class TestNotCase < MiniTest::Test
   class PostRangeQuery < Elasticquery::Base
     filtered do |param|
       term published: true
-      range.not lte: params[:year]
+      range.not :age, lte: params[:year]
     end
   end
 
@@ -23,7 +23,7 @@ class TestNotCase < MiniTest::Test
 
   def test_invalid_previous_filter
     query = InvalidQuery.new({}).build
-    assert_equal query, {}
+    assert_equal Elasticquery::Query::DEFAULT, query
   end
 
   def test_term_case
@@ -33,10 +33,10 @@ class TestNotCase < MiniTest::Test
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 
-  def range_case
+  def test_range_case
     params = {year: 2015}
     actual = PostRangeQuery.new(params).build
-    expected = [{not: {filter: {range: {lte: 2015}}}}, {term: {published: true}}]
+    expected = [{term: {published: true}}, {not: {filter: {range: {age: {lte: 2015}}}}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 end

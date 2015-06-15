@@ -29,6 +29,7 @@ module Elasticquery
       def valid?
         OPERATORS.include?(@operator) &&
           TYPES.include?(@type) &&
+          @query.present? &&
           ( Array === @fields || @fields == "_all" )
       end
       

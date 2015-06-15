@@ -5,13 +5,13 @@ module Elasticquery
     class Range < Base
       OPTIONS = %i(_cache execution)
 
-      def initialize(field, gte: nil, lte: nil, **options)
+      def initialize(field=nil, gte: nil, lte: nil, **options)
         @options = options.extract! *OPTIONS
         @field, @gte, @lte = field, gte, lte
       end
 
       def valid?
-        @gte || @lte
+        @gte.present? || @lte.present?
       end
 
       def to_hash

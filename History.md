@@ -1,5 +1,10 @@
 ## Elasticquery (master)
 
+* Fix `range.not`. Exception was raised
+
+* Skip blank values in filtering
+`term name: "  "`, `range :age, lte: ""`, and `search nil` return all records
+
 * Create `history.md` file
 
 * Add options support for `range` and `term`.

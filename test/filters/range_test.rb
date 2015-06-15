@@ -15,6 +15,13 @@ class RangeFilter < MiniTest::Test
     assert filter.valid?
   end
 
+  def empty_values_is_invalid
+    filter = Elasticquery::Filters::Range.new "year", lte: "  "
+    assert filter.invalid?
+    filter = Elasticquery::Filters::Range.new "year", gte: nil, lte: ""
+    assert filte.invalid?
+  end
+
   def test_filter_invalid_if_has_no_options
     filter = Elasticquery::Filters::Range.new "year"
     refute filter.valid?

@@ -18,6 +18,11 @@ class TestTermfilter < MiniTest::Test
     refute filter.valid?
   end
 
+  def test_empty_condition_is_invalid
+    filter = Elasticquery::Filters::Term.new a: ""
+    refute filter.valid?
+  end
+
   def test_valid_filter_could_have_cache_option
     filter = Elasticquery::Filters::Term.new  a: 1, _cache: false
     assert filter.valid?

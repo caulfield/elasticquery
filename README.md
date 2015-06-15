@@ -48,8 +48,6 @@ Article.search query.build # => be happy
 2. [MultiMatch][es_search] filter. [Usage][search_examples]
 3. [Range][es_range] filter. [Usage][range_examples]  
 
-#### Note! After first releases of elasticuqery it has scarce support of options and methods. Pull requests and issues with your ideas are welcome!
-
 ### Extended instruction
 There are multiple ways to organize your query, using chaining calls, or custom filters. Better custom filters support in progress now.
 
@@ -102,15 +100,6 @@ end
 
 ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous example
 ```
-- Custom filter methods
-```ruby
-in progress...
-```
-
-- Custom filter classes
-```ruby
-in progress...
-```
 
 ### Usage
 #### term
@@ -124,6 +113,9 @@ term category: 'Soul', user: 'Aaron'
 
 # Term exclusion
 term.not category: 'Rap'
+
+# Blank values are skipped. This query returns all records
+term name: " "
 ```
 
 #### search (multimatch)
@@ -136,6 +128,9 @@ search 'developers', fields: "_all", operator: "and", type: "best_fields"
 
 # Configure fields
 search 'Jordan', fields: ['first_name', 'last_name'], operator: "or"
+
+# Blank values are skipped. This query returns all records
+search ''
 ```
 
 #### range
@@ -148,6 +143,9 @@ range :volume, gte: 1, lte: 100
 
 # Range exclusion
 range.not :size, gte: 32, lte: 128
+
+# Blank values are skipped. This query returns all records
+range.not :age, lte: ' ', gte: nil
 
 # _cache and execution options support
 range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"

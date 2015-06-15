@@ -15,6 +15,11 @@ class TestSearchFilter < MiniTest::Test
     end
   end
 
+  def test_empty_query_is_invalid
+    filter = Elasticquery::Filters::Search.new "  "
+    assert filter.invalid?
+  end
+
   def test_default_query_should_be_valid
     filter = Elasticquery::Filters::Search.new "hi"
     assert filter.valid?

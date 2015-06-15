@@ -4,8 +4,8 @@ module Elasticquery
   module Filters
     class Not < Base
 
-      def initialize(condition = {})
-        @condition = condition
+      def initialize(*args)
+        @args = args
       end
 
       def dup_with(*args)
@@ -13,9 +13,9 @@ module Elasticquery
       end
 
       def to_hash
-        condition = @condition
+        args = @args
         -> do
-          filter = filters.last.dup_with condition
+          filter = filters.last.dup_with *args
           if filter.valid?
             subquery = filter.to_hash
             q = subquery[:query][:filtered][:filter][:and][0]

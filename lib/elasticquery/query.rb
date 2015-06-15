@@ -22,6 +22,7 @@ module Elasticquery
     #
     # @return [Hash] hash presentation of query
     def to_hash
+      return DEFAULT if @query == {}
       @query
     end
 
