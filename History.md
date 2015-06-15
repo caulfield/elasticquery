@@ -1,5 +1,7 @@
 ## Elasticquery (master)
 
+## Elasticquery 0.1.2 (16 June 2015)
+
 * Fix `range.not`. Exception was raised
 
 * Skip blank values in filtering
