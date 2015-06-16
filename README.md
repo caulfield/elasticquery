@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/caulfield/elasticquery/badges/gpa.svg)](https://codeclimate.com/github/caulfield/elasticquery)
 [![Test Coverage](https://codeclimate.com/github/caulfield/elasticquery/badges/coverage.svg)](https://codeclimate.com/github/caulfield/elasticquery)
 
-A module for elasticquery ruby [libraries][elasticsearch_rails] for using user-friendly query generator. [Click here to view demo with code examples.][demo]
+A module for elasticquery ruby [libraries][elasticsearch_rails] for using user-friendly query generator.
 
 ## Instalation
 
