@@ -29,7 +29,7 @@ Elasticquery was designed to be customized as you need to. Providing simple meth
 class MyQuery < Elasticquery::Base
   filtered do |params|
      search params[:query]
-     term user_id: params[:user_id] if params[:user_id].present?
+     term "user.id" => params[:user_id]
      range.not :age, gte: 18
   end
 end
