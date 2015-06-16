@@ -4,6 +4,9 @@ module Elasticquery
   module Filters
     class Not < Base
 
+      # Create not filter by wrapping previous one.
+      # 
+      # Constructor proxies all arguments
       def initialize(*args)
         @args = args
       end
@@ -12,6 +15,9 @@ module Elasticquery
         raise StandardError, "Cannot use Filters::Not twice"
       end
 
+      # Hash presentation of previous filter with given arguments
+      #
+      # @return [Hash]
       def to_hash
         args = @args
         -> do

@@ -5,7 +5,7 @@ module Elasticquery
     class Term < Base
       OPTIONS = %i(_cache)
 
-      # Create term filter for elasticsearch builder
+      # Create term filter for elasticsearch builder. Supported option is _cache
       #
       # @param [Hash] condition passed to define
       #
