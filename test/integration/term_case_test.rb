@@ -4,8 +4,10 @@ require "elasticquery"
 class TestTermCase < MiniTest::Test
   class PostQuery < Elasticquery::Base
     filtered do |params|
-      term :"category.id" => params[:category_id]
-      term :"author.name" => params[:author_name], _cache: false
+      filters do
+        term :"category.id" => params[:category_id]
+        term :"author.name" => params[:author_name], _cache: false
+      end
     end
   end
 

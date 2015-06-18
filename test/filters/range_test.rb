@@ -29,33 +29,27 @@ class RangeFilter < MiniTest::Test
 
   def test_to_hash_should_return_query
     filter = Elasticquery::Filters::Range.new :year, lte: 1, gte: 0
-    assert_equal({query: {filtered: {filter: {and: [{range: {year: {lte: 1, gte: 0}}}]}}}}, filter.to_hash)
+    assert_equal({range: {year: {lte: 1, gte: 0}}}, filter.to_hash)
   end
 
   def test_to_hash_with_one_param
     filter = Elasticquery::Filters::Range.new :year, lte: 1
-    assert_equal({query: {filtered: {filter: {and: [{range: {year: {lte: 1}}}]}}}}, filter.to_hash)
+    assert_equal({range: {year: {lte: 1}}}, filter.to_hash)
   end
 
   def test_to_hash_support_cache_option
     filter = Elasticquery::Filters::Range.new :year, lte: 1, _cache: true
-    assert_equal({query: {filtered: {filter: {and: [{range: {year: {_cache: true, lte: 1}}}]}}}}, filter.to_hash)
+    assert_equal({range: {year: {_cache: true, lte: 1}}}, filter.to_hash)
   end
 
   def test_to_hash_support_execution_option
     filter = Elasticquery::Filters::Range.new :year, lte: 1, gte: 0, execution: "fielddata"
-    assert_equal({query: {filtered: {filter: {and: [{range: {year: {lte: 1, gte: 0, execution: "fielddata"}}}]}}}}, filter.to_hash)
+    assert_equal({range: {year: {lte: 1, gte: 0, execution: "fielddata"}}}, filter.to_hash)
   end
 
   def test_to_hash_skip_unnesessary_options
     filter = Elasticquery::Filters::Range.new :year, lte: 1, _cache: true, extra: false
-    assert_equal({query: {filtered: {filter: {and: [{range: {year: { _cache: true, lte: 1}}}]}}}}, filter.to_hash)
-  end
-
-  def test_to_hash_is_empty_if_invalid
-    filter = Elasticquery::Filters::Range.new "year"
-    refute filter.valid?
-    assert_equal filter.to_hash, {}
+    assert_equal({range: {year: { _cache: true, lte: 1}}}, filter.to_hash)
   end
 
   def test_dup_with_return_new_range_filter

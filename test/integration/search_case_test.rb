@@ -4,23 +4,31 @@ require "elasticquery"
 class TestSearchQueryCase < MiniTest::Test
   class PostQuery < Elasticquery::Base
     filtered do |params|
-      term :"category" => params[:category]
-      search params[:search]
+      filters do
+        term :"category" => params[:category]
+      end
+      queries do
+        search params[:search]
+      end
     end
   end
 
   class PostOptionsQuery < Elasticquery::Base
     filtered do |params|
-      search params[:search],
-        fields: params[:fields],
-        operator: params[:operator],
-        type: "phrase"
+      queries do
+        search params[:search],
+          fields: params[:fields],
+          operator: params[:operator],
+          type: "phrase"
+      end
     end
   end
 
   class MultipleSearch < PostQuery
     filtered do |params|
-      search "look for"
+      queries do
+        search "look for"
+      end
     end
   end
 

@@ -21,7 +21,7 @@ class TestBase < MiniTest::Test
 
   def test_filters_is_empty_by_default
     query = Elasticquery::Base.new
-    assert_empty query.filters
+    assert_empty query.rules
   end
 
   def test_extract_params
@@ -34,20 +34,20 @@ class TestBase < MiniTest::Test
   end
 
   def test_filters_proc
-    assert_equal 2, @query.filters.first.call
+    assert_equal 2, @query.rules.first.call
   end
 
   def test_should_have_term_rule_included
     assert_respond_to @query, :term
   end
 
-  def test_filters_as_array
+  def test_rules_as_array
     klass = Class.new(Elasticquery::Base)
     klass.filtered { 1 + 1 }
     klass.filtered { 2 + 2 }
 
     query = klass.new
-    assert_equal 2, query.filters.count
+    assert_equal 2, query.rules.count
   end
 
   def test_should_execute_code_in_instance_context

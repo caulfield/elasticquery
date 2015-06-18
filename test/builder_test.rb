@@ -22,20 +22,24 @@ class TestAllBaseQueries < MiniTest::Test
     assert_respond_to self, :search
   end
 
-  def test_defined_instances_return_sel
-    assert_equal self, term
+  def test_have_multi_match
+    assert_respond_to self, :multi_match
   end
 
-  def test_push_hash_term_to_query
-    term a: 1
-    search b: 2
-    term c: 3
-    assert_equal 3, query.size
+  def test_have_range
+    assert_respond_to self, :range
+  end
+
+  def test_defined_instances_return_self
+    @query.expect :push_filter, true, [Elasticquery::Filters::Term]
+
+    assert_equal self, filters { term(a: 1) }
+    assert @query.verify
   end
 
   private
 
   def clear_query
-    @query = []
+    @query = MiniTest::Mock.new
   end
 end

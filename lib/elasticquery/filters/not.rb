@@ -4,31 +4,25 @@ module Elasticquery
   module Filters
     class Not < Base
 
-      # Create not filter by wrapping previous one.
-      # 
-      # Constructor proxies all arguments
       def initialize(*args)
-        @args = args
+        @args = Marshal.load(Marshal.dump(args))
       end
 
       def dup_with(*args)
         raise StandardError, "Cannot use Filters::Not twice"
       end
 
-      # Hash presentation of previous filter with given arguments
-      #
-      # @return [Hash]
+      def valid?
+        args = @args
+        -> { filters[-2].dup_with(*args).valid? }
+      end
+
       def to_hash
         args = @args
         -> do
-          filter = filters.last.dup_with *args
-          if filter.valid?
-            subquery = filter.to_hash
-            q = subquery[:query][:filtered][:filter][:and][0]
-            {query: {filtered: {filter: {and: [{not: {filter: q}}]}}}}
-          else
-            {}
-          end
+          filter = filters[-2].dup_with *args
+          # longer form
+          {not: {filter: filter.to_hash}}
         end
       end
     end

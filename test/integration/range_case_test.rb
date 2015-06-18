@@ -4,8 +4,10 @@ require "elasticquery"
 class TestRangeCase < MiniTest::Test
   class HumanQuery < Elasticquery::Base
     filtered do |params|
-      range :year, lte: params[:max_year], gte: params[:min_year], execution: "fielddata"
-      range :revenue, lte: params[:max_revenue], gte: params[:min_revenue]
+      filters do
+        range :year, lte: params[:max_year], gte: params[:min_year], execution: "fielddata"
+        range :revenue, lte: params[:max_revenue], gte: params[:min_revenue]
+      end
     end
   end
 

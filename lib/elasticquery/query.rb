@@ -1,64 +1,53 @@
-require "deep_merge/rails_compat"
-
 module Elasticquery
   class Query
 
-    attr_reader :filters
+    attr_reader :filters, :queries
 
     DEFAULT = {query: {filtered: {query: {match_all:{}}}}}
 
-    # Create new query from hash.
-    #
-    # @param [Hash] query passed as hash. When it not passed use default es 'match_all' query
-    #
-    # @example
-    #   Elasticsearch::Query.new.to_hash #=> {query: {filtered: {query: {match_all:{}}}}}
     def initialize(query = DEFAULT)
       @query = query
-      @filters = []
+      @filters, @queries = [], []
     end
 
-    # Convery query object ot hash
-    #
-    # @return [Hash] hash presentation of query
     def to_hash
-      return DEFAULT if @query == {}
       @query
     end
 
-    # Merge filter to query. If current query is `matche_all`ed
-    # then clear it and use new value. Populate #filters array
-    # with given classes
-    #
-    # @param [Elasticquery::filter::Base] filter passed
-    #
-    # @see #match_all?
-    def <<(filter)
-      @query = {} if match_all?
-      merge filter
+    def push_filter(filter)
       @filters << filter
+      merge_filter filter
     end
 
-    # Ckeck current object to default elasticsearch param
-    #
-    # @return [Boolean] is passed query undefined
-    def match_all?
-      @query == DEFAULT
+    def push_query(query)
+      @queries << query
+      merge_query query
     end
 
     private
 
-    def merge(filter)
+    def merge_filter(filter)
+      return unless filter_valid?(filter)
+
       hash = filter.to_hash
       subquery = hash.respond_to?(:call) ? instance_exec(&hash) : hash
-      @query.deeper_merge! subquery
+      @query = {query: {filtered: {}}} if @query == DEFAULT
+
+      @query[:query][:filtered][:filter] ||= {and: []}
+      @query[:query][:filtered][:filter][:and] << subquery
     end
 
-    def _filters
-      @query[:query] &&
-        @query[:query][:filtered] &&
-        @query[:query][:filtered][:filter] &&
-        @query[:query][:filtered][:filter][:and]
+    def filter_valid?(filter)
+      validation = filter.valid?
+      validation.respond_to?(:call) ? instance_exec(&validation) : validation
+    end
+
+    def merge_query(query)
+      return unless query.valid?
+      @query = {query: {filtered: {}}} if @query == DEFAULT
+
+      @query[:query][:filtered][:query] ||= {}
+      @query[:query][:filtered][:query].merge! query.to_hash
     end
   end
 end

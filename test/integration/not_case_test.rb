@@ -4,20 +4,26 @@ require "elasticquery"
 class TestNotCase < MiniTest::Test
   class PostQuery < Elasticquery::Base
     filtered do |param|
-      term.not id: params[:id]
+      filters do
+        term.not id: params[:id]
+      end
     end
   end
 
   class PostRangeQuery < Elasticquery::Base
     filtered do |param|
-      term published: true
-      range.not :age, lte: params[:year]
+      filters do
+        term published: true
+        range.not :age, lte: params[:year], _cache: false
+      end
     end
   end
 
   class InvalidQuery < Elasticquery::Base
     filtered do |param|
-      term.not
+      filters do
+        term.not
+      end
     end
   end
 
@@ -36,7 +42,7 @@ class TestNotCase < MiniTest::Test
   def test_range_case
     params = {year: 2015}
     actual = PostRangeQuery.new(params).build
-    expected = [{term: {published: true}}, {not: {filter: {range: {age: {lte: 2015}}}}}]
+    expected = [{term: {published: true}}, {not: {filter: {range: {age: {lte: 2015, _cache: false}}}}}]
     assert_equal expected, actual[:query][:filtered][:filter][:and]
   end
 end

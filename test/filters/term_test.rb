@@ -30,18 +30,12 @@ class TestTermfilter < MiniTest::Test
 
   def test_to_hash_should_pass__cache_options
     filter = Elasticquery::Filters::Term.new a: 1, _cache: true
-    assert_equal({query: {filtered: {filter: {and: [{term: {a: 1, _cache: true}}]}}}}, filter.to_hash)
+    assert_equal({term: {a: 1, _cache: true}}, filter.to_hash)
   end
 
   def test_to_hash_should_return_es_query
     filter = Elasticquery::Filters::Term.new a: 1
-    assert_equal({query: {filtered: {filter: {and: [{term: {a: 1}}]}}}}, filter.to_hash)
-  end
-
-  def test_to_hash_is_empty_if_invalid
-    filter = Elasticquery::Filters::Term.new
-    refute filter.valid?
-    assert_equal filter.to_hash, {}
+    assert_equal({term: {a: 1}}, filter.to_hash)
   end
 
   def test_dup_with_return_new_term_filter

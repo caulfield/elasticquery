@@ -17,37 +17,52 @@ class NotFilter < MiniTest::Test
     assert_instance_of Proc, @filter.to_hash
   end
 
+  def test_valid_return_proc
+    assert_instance_of Proc, @filter.valid?
+  end
+
+  def test_valid_proxy_to_previous_filter
+    filter_class = MiniTest::Mock.new
+    filter_class.expect :valid?, true
+    previous_filter = MiniTest::Mock.new
+    previous_filter.expect :dup_with, filter_class, [{a: 1}]
+
+    @filters = [previous_filter, "current-not-filter"]
+    assert instance_exec &@filter.valid?
+
+    assert filter_class.verify
+    assert previous_filter.verify
+  end
+
   def test_to_hash_change_last_term_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    expected = {query: {filtered: {filter: {and: [{term: {a: 1, b: 2}}]}}}}
+    expected = {term: {a: 1, b: 2}}
     filter_class.expect :to_hash, expected
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
-    @filters = [previous_filter]
+    @filters = [previous_filter, "current-not-filter"]
     result = instance_exec &@filter.to_hash
-    expected = {query: {filtered: {filter: {and: [{not: {filter: {term: {a: 1, b: 2}}}}]}}}}
+    expected = {not: {filter: {term: {a: 1, b: 2}}}}
     assert_equal result, expected
 
-    assert filter_class.verify
     assert previous_filter.verify
   end
 
   def test_to_hash_change_last_range_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    expected = {query: {filtered: {filter: {and: [{range: {a: {lte: 1}}}]}}}}
+    expected = {range: {a: {lte: 1}}}
     filter_class.expect :to_hash, expected
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
-    @filters = [previous_filter]
+    @filters = [previous_filter, "current-not-filter"]
     result = instance_exec &@filter.to_hash
-    expected = {query: {filtered: {filter: {and: [{not: {filter: {range: {a: {lte: 1}}}}}]}}}}
+    expected = {not: {filter: {range: {a: {lte: 1}}}}}
     assert_equal result, expected
 
-    assert filter_class.verify
     assert previous_filter.verify
   end
 

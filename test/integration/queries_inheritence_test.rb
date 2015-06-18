@@ -4,23 +4,31 @@ require "elasticquery"
 class TestQueriesInheritence < MiniTest::Test
   class MultipleFilteredQuery < Elasticquery::Base
     filtered do |params|
-      term :"category.id" => params[:category_id]
+      filters do
+        term :"category.id" => params[:category_id]
+      end
     end
 
     filtered do |params|
-      term :"author.name" => params[:author_name]
+      filters do
+        term :"author.name" => params[:author_name]
+      end
     end
   end
 
   class ParentPostQuery < Elasticquery::Base
     filtered do |params|
-      term :"category.id" => params[:category_id]
+      filters do
+        term :"category.id" => params[:category_id]
+      end
     end
   end
 
   class ChildPostQuery < ParentPostQuery
     filtered do |params|
-      term :"author.name" => params[:author_name]
+      filters do
+        term :"author.name" => params[:author_name]
+      end
     end
   end
 
