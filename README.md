@@ -89,7 +89,21 @@ Article.search query.build # => returns result
   # _cache and execution options support
   range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
   ```
+  #### [Exists][es_exists]
+
+
+  ```ruby
+  # Field existence check
+  exists "last_name"
+
+  # Blank value skipped
+  exists ""
+
+  # Has with alias
+  with 'first_name'
+  ```
   #### [Not][es_not]
+
 
   ```ruby
   # Blank values are skipped. This query returns all records
@@ -100,6 +114,9 @@ Article.search query.build # => returns result
 
   # Terms exclusion
   terms.not category: 'Rap', name: "Guf"
+
+  # 'Exists not' uses missing
+  with.not #=> returns missing filter
   ```
 
 All filters are joined by **AND** filter.
@@ -200,6 +217,7 @@ ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous exa
 [es_term]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-term-filter.html
 [es_terms]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-terms-filter.html
 [es_not]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-not-filter.html
+[es_exists]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-filter.html
 [es_search]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
 [es_range]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
 [elastic_query_dsl]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html

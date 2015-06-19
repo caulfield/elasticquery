@@ -57,4 +57,9 @@ class RangeFilter < MiniTest::Test
     new_filter = filter.dup_with "month", gte: 12
     assert_kind_of Elasticquery::Filters::Range, new_filter
   end
+
+  def test_not_hash_to_returns_terms_not
+    filter = Elasticquery::Filters::Range.new :year, lte: 1
+    assert_equal({not: {filter: {range: {year: {lte: 1}}}}}, filter.to_not_hash)
+  end
 end

@@ -2,6 +2,7 @@ require "elasticquery/filters/term"
 require "elasticquery/filters/not"
 require "elasticquery/filters/terms"
 require "elasticquery/filters/range"
+require "elasticquery/filters/exists"
 
 require "elasticquery/queries/multi_match"
 
@@ -16,7 +17,7 @@ module Elasticquery
       @namespace = "Filters"
       if block_given?
         yield
-        @namespace = nil if block_given?
+        @namespace = nil
       end
       self
     end
@@ -25,7 +26,7 @@ module Elasticquery
       @namespace = "Queries"
       if block_given?
         yield
-        @namespace = nil if block_given?
+        @namespace = nil
       end
       self
     end
@@ -67,6 +68,14 @@ module Elasticquery
 
     def search(*args) 
       multi_match *args
+    end
+
+    def exists(*args)
+      execute "exists", *args
+    end
+
+    def with(*args)
+      exists *args
     end
   end
 end

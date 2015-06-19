@@ -3,7 +3,7 @@ require "elasticquery"
 
 class TestTermsCase < MiniTest::Test
   class PostQuery < Elasticquery::Base
-    filtered do |param|
+    filtered do |params|
       filters do
         terms id: params[:id], name: params[:name]
       end

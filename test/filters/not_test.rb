@@ -37,14 +37,13 @@ class NotFilter < MiniTest::Test
   def test_to_hash_change_last_term_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    expected = {term: {a: 1, b: 2}}
-    filter_class.expect :to_hash, expected
+    expected = {not: {filter: {term: {a: 1, b: 2}}}}
+    filter_class.expect :to_not_hash, expected
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
     @filters = [previous_filter, "current-not-filter"]
     result = instance_exec &@filter.to_hash
-    expected = {not: {filter: {term: {a: 1, b: 2}}}}
     assert_equal result, expected
 
     assert previous_filter.verify
@@ -53,14 +52,13 @@ class NotFilter < MiniTest::Test
   def test_to_hash_change_last_range_filter_value
     filter_class = MiniTest::Mock.new
     filter_class.expect :valid?, true
-    expected = {range: {a: {lte: 1}}}
-    filter_class.expect :to_hash, expected
+    expected = {not: {filter: {range: {a: {lte: 1}}}}}
+    filter_class.expect :to_not_hash, expected
     previous_filter = MiniTest::Mock.new
     previous_filter.expect :dup_with, filter_class, [{a: 1}]
 
     @filters = [previous_filter, "current-not-filter"]
     result = instance_exec &@filter.to_hash
-    expected = {not: {filter: {range: {a: {lte: 1}}}}}
     assert_equal result, expected
 
     assert previous_filter.verify

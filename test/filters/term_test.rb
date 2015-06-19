@@ -38,6 +38,11 @@ class TestTermFilter < MiniTest::Test
     assert_equal({term: {a: 1}}, filter.to_hash)
   end
 
+  def test_not_to_hash_should_return_terms_not_query
+    filter = Elasticquery::Filters::Term.new a: 1
+    assert_equal({not: {filter: {term: {a: 1}}}}, filter.to_not_hash)
+  end
+
   def test_dup_with_return_new_term_filter
     filter = Elasticquery::Filters::Term.new a: 1
     new_filter = filter.dup_with b: 2

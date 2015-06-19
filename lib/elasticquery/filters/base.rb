@@ -12,6 +12,10 @@ module Elasticquery
         !valid?
       end
 
+      def to_not_hash
+        {not: {filter: to_hash}}
+      end
+
       def dup_with(*args)
         self.class.new *args
       end

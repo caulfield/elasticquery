@@ -34,6 +34,14 @@ class TestAllBaseQueries < MiniTest::Test
     assert_respond_to self, :range
   end
 
+  def test_have_range
+    assert_respond_to self, :exists
+  end
+
+  def test_have_range
+    assert_respond_to self, :with
+  end
+
   def test_defined_instances_return_self
     @query.expect :push_filter, true, [Elasticquery::Filters::Term]
 

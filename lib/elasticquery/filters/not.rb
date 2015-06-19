@@ -19,11 +19,7 @@ module Elasticquery
 
       def to_hash
         args = @args
-        -> do
-          filter = filters[-2].dup_with *args
-          # longer form
-          {not: {filter: filter.to_hash}}
-        end
+        -> { filters[-2].dup_with(*args).to_not_hash }
       end
     end
   end

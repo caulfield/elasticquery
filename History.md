@@ -4,6 +4,8 @@
 
 * Add `terms` filter
 
+* Add `exists` filter. `exists.not` works as `missing`.
+
 ## Elasticquery 0.1.2 (16 June 2015)
 
 * Fix `range.not`. Exception was raised

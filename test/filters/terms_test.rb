@@ -33,9 +33,14 @@ class TestTermsFilter < MiniTest::Test
     assert filter.valid?
   end
 
-  def test_to_hash_should_wrap_single_element
+  def test_to_hash_should_pass_all_valid_conditions
     filter = Elasticquery::Filters::Terms.new a: 42, b: "42"
     assert_equal({terms: {a: 42, b: "42"}}, filter.to_hash)
+  end
+
+  def test_to_not_hash_should_returns_terms_not_condition
+    filter = Elasticquery::Filters::Terms.new a: 42, b: "42"
+    assert_equal({not: {filter: {terms: {a: 42, b: "42"}}}}, filter.to_not_hash)
   end
 
   def test_to_hash_should_skip_blank_values
