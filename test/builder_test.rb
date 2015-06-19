@@ -18,6 +18,10 @@ class TestAllBaseQueries < MiniTest::Test
     assert_respond_to self, :term
   end
 
+  def test_have_terms
+    assert_respond_to self, :terms
+  end
+
   def test_have_search
     assert_respond_to self, :search
   end

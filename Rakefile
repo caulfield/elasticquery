@@ -1,6 +1,5 @@
 require "bundler/gem_tasks"
 require 'rake/testtask'
-require 'yard'
 
 desc "Run unit tests"
 Rake::TestTask.new do |t|

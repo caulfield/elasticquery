@@ -1,7 +1,9 @@
 require "elasticquery/filters/term"
-require "elasticquery/queries/multi_match"
 require "elasticquery/filters/not"
+require "elasticquery/filters/terms"
 require "elasticquery/filters/range"
+
+require "elasticquery/queries/multi_match"
 
 require "active_support/concern"
 require "active_support/core_ext/string/inflections"
@@ -45,6 +47,10 @@ module Elasticquery
 
     def term(*args)
       execute "term", *args
+    end
+
+    def terms(*args)
+      execute "terms", *args
     end
 
     def not(*args)

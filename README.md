@@ -60,6 +60,22 @@ Article.search query.build # => returns result
   # Blank values are skipped. This query returns all records
   term name: " "
   ```
+  #### [Terms][es_terms]
+
+
+  ```ruby
+  # Standard terms options
+  terms a: 1, b: 2
+
+  # Skip empty values
+  terms a: 1, b: "" # => {a: 1} wil be passed
+
+  # Blank terms are skipped
+  terms a: "", b: nil # => match_all will be executed
+
+  # _cache and execution support
+  terms a: 1, b: 2, _cache: false, execution: "or"
+  ```
   #### [Range][es_range]
 
 
@@ -81,6 +97,9 @@ Article.search query.build # => returns result
 
   # Term exclusion
   term.not category: 'Rap'
+
+  # Terms exclusion
+  terms.not category: 'Rap', name: "Guf"
   ```
 
 All filters are joined by **AND** filter.
@@ -179,6 +198,7 @@ ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous exa
 [bundler]: http://bundler.io/
 [rubygems]: https://rubygems.org/
 [es_term]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-term-filter.html
+[es_terms]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-terms-filter.html
 [es_not]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-not-filter.html
 [es_search]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
 [es_range]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html

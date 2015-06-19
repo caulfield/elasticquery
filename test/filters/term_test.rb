@@ -1,7 +1,7 @@
 require "test_helper"
 require "elasticquery/filters/term"
 
-class TestTermfilter < MiniTest::Test
+class TestTermFilter < MiniTest::Test
 
   def test_valid_filter_should_have_one_key
     filter = Elasticquery::Filters::Term.new a: 1
