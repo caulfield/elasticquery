@@ -23,7 +23,7 @@ gem install elasticquery
 ## Getting Started
 ### First instruction
 
-Elasticquery was designed to be customized as you need to. Providing simple methods it allows you to build flexible queries using [Elastiq Query DSL][elastic_query_dsl]
+Elasticquery was designed to be customized as you need to. Providing simple methods it allows you to build flexible queries using [Elastic Query DSL][elastic_query_dsl]
 
 ```ruby
 class MyQuery < Elasticquery::Base
@@ -47,7 +47,7 @@ Article.search query.build # => returns result
 
 ## Currently you have
 ### Filters
-  #### [Term][es_term]
+  [Term][es_term]
 
 
   ```ruby
@@ -60,7 +60,7 @@ Article.search query.build # => returns result
   # Blank values are skipped. This query returns all records
   term name: " "
   ```
-  #### [Terms][es_terms]
+  [Terms][es_terms]
 
 
   ```ruby
@@ -76,7 +76,7 @@ Article.search query.build # => returns result
   # _cache and execution support
   terms a: 1, b: 2, _cache: false, execution: "or"
   ```
-  #### [Range][es_range]
+  [Range][es_range]
 
 
   ```ruby
@@ -89,7 +89,7 @@ Article.search query.build # => returns result
   # _cache and execution options support
   range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
   ```
-  #### [Exists][es_exists]
+  [Exists][es_exists]
 
 
   ```ruby
@@ -102,7 +102,7 @@ Article.search query.build # => returns result
   # Has with alias
   with 'first_name'
   ```
-  #### [Not][es_not]
+  [Not][es_not]
 
 
   ```ruby
@@ -121,7 +121,7 @@ Article.search query.build # => returns result
 
 All filters are joined by **AND** filter.
 ## Queries
-  1. [MultiMatch][es_search]
+  [MultiMatch][es_search]
 
 
   ```ruby
