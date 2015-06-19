@@ -92,7 +92,8 @@ Article.search query.build # => returns result
   # _cache and execution options support
   range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
   ```
-  [Exists][es_exists], [Missing][es_missing]
+  [Exists][es_exists]
+  [Missing][es_missing]
 
 
   ```ruby
@@ -224,7 +225,7 @@ ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous exa
 [es_terms]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-terms-filter.html
 [es_not]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-not-filter.html
 [es_exists]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-filter.html
-[es_exists]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-missing-filter.html
+[es_missing]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-missing-filter.html
 [es_search]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
 [es_range]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
 [elastic_query_dsl]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
