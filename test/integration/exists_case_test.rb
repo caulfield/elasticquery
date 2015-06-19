@@ -14,6 +14,15 @@ class TestExistsCase < MiniTest::Test
     end
   end
 
+  class SimpleUserQuery < Elasticquery::Base
+    filtered do |params|
+      filters do
+        without params[:missing]
+        missing params[:another_missing]
+      end
+    end
+  end
+
   def test_simple_setup
     params = {query: "Mark", required: "name"}
     actual = UserQuery.new(params).build
@@ -27,6 +36,20 @@ class TestExistsCase < MiniTest::Test
   def test_exists_not_use_missing
     params = {query: "Mark", missing: "deleted_at"}
     actual = UserQuery.new(params).build
+    expected_filters = [{missing: {field: "deleted_at"}}]
+    assert_equal expected_filters, actual[:query][:filtered][:filter][:and]
+  end
+
+  def test_without_support
+    params = {missing: "deleted_at"}
+    actual = SimpleUserQuery.new(params).build
+    expected_filters = [{missing: {field: "deleted_at"}}]
+    assert_equal expected_filters, actual[:query][:filtered][:filter][:and]
+  end
+
+  def test_missing_support
+    params = {another_missing: "deleted_at"}
+    actual = SimpleUserQuery.new(params).build
     expected_filters = [{missing: {field: "deleted_at"}}]
     assert_equal expected_filters, actual[:query][:filtered][:filter][:and]
   end

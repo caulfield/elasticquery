@@ -53,6 +53,9 @@ module Elasticquery
     def terms(*args)
       execute "terms", *args
     end
+    def where(*args)
+      terms *args
+    end
 
     def not(*args)
       execute "not", *args
@@ -65,7 +68,6 @@ module Elasticquery
     def multi_match(*args)
       execute "multi_match", *args
     end
-
     def search(*args) 
       multi_match *args
     end
@@ -73,9 +75,15 @@ module Elasticquery
     def exists(*args)
       execute "exists", *args
     end
-
     def with(*args)
       exists *args
+    end
+
+    def missing(*args)
+      exists.not *args
+    end
+    def without(*args)
+      missing *args
     end
   end
 end

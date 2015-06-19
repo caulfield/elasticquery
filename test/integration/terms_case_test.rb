@@ -14,7 +14,7 @@ class TestTermsCase < MiniTest::Test
     filtered do
       filters do
         term.not status: "pending"
-        terms.not status: "waiting", status: params[:inactive_status]
+        where.not status: "waiting", status: params[:inactive_status]
       end
       queries do
         search params[:q]

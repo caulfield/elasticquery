@@ -75,6 +75,9 @@ Article.search query.build # => returns result
 
   # _cache and execution support
   terms a: 1, b: 2, _cache: false, execution: "or"
+
+  # where alias. Usable in chain calls
+  where a: 1, b: 2, c: 3
   ```
   [Range][es_range]
 
@@ -89,18 +92,21 @@ Article.search query.build # => returns result
   # _cache and execution options support
   range :volume, gte: 1, lte: 100, _cache: true, execution: "fielddata"
   ```
-  [Exists][es_exists]
+  [Exists][es_exists], [Missing][es_missing]
 
 
   ```ruby
   # Field existence check
   exists "last_name"
+  missing "last_name"
 
   # Blank value skipped
   exists ""
+  missing ""
 
   # Has with alias
   with 'first_name'
+  without 'first_name'
   ```
   [Not][es_not]
 
@@ -218,6 +224,7 @@ ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous exa
 [es_terms]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-terms-filter.html
 [es_not]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-not-filter.html
 [es_exists]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-filter.html
+[es_exists]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-missing-filter.html
 [es_search]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
 [es_range]: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
 [elastic_query_dsl]: https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html

@@ -6,6 +6,10 @@
 
 * Add `exists` filter. `exists.not` works as `missing`.
 
+* Add `where` alias to `terms`
+
+* Add `without`/`missing` filter
+
 ## Elasticquery 0.1.2 (16 June 2015)
 
 * Fix `range.not`. Exception was raised
