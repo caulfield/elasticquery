@@ -1,5 +1,7 @@
 ## Elasticquery (master)
 
+* Separate all filters to filters and queries. Rename search to multi_match. Change dsl for using explisit rule type.
+
 ## Elasticquery 0.1.2 (16 June 2015)
 
 * Fix `range.not`. Exception was raised
