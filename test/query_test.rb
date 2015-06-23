@@ -16,16 +16,16 @@ class TestQuery < MiniTest::Test
     assert_equal({query: {filtered: {query: {match_all:{}}}}}, @query.to_hash)
   end
 
-  def test_push_query_should_merge_query
+  def test_push_query_should_combine_queries_by_bool_must_query
     @rule.expect :valid?, true
     @rule.expect :to_hash, {a: 1}
     @query.push_query @rule
-    assert_equal({query: {filtered: {query: {a: 1}}}}, @query.to_hash)
+    assert_equal({query: {filtered: {query: {bool: {must: [{a: 1}]}}}}}, @query.to_hash)
 
     @rule.expect :valid?, true
     @rule.expect :to_hash, {b: 1}
     @query.push_query @rule
-    assert_equal({query: {filtered: {query: {a: 1, b: 1}}}}, @query.to_hash)
+    assert_equal({query: {filtered: {query: {bool: {must: [{a: 1}, {b: 1}]}}}}}, @query.to_hash)
 
     assert_equal 2, @query.queries.size
     assert @rule.verify

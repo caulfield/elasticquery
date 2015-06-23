@@ -36,7 +36,7 @@ class TestTermsCase < MiniTest::Test
     expected_query = {multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "Hello"}}
     expected_filters = [{:terms=>{:id=>1, :name=>"name"}}, {:not=>{:filter=>{:term=>{:status=>"pending"}}}}, {:not=>{:filter=>{:terms=>{:status=>"closed"}}}}]
 
-    assert_equal expected_query, actual[:query][:filtered][:query]
+    assert_equal expected_query, actual[:query][:filtered][:query][:bool][:must][0]
     assert_equal expected_filters, actual[:query][:filtered][:filter][:and]
   end
 

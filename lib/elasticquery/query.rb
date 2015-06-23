@@ -46,8 +46,8 @@ module Elasticquery
       return unless query.valid?
       @query = {query: {filtered: {}}} if @query == DEFAULT
 
-      @query[:query][:filtered][:query] ||= {}
-      @query[:query][:filtered][:query].merge! query.to_hash
+      @query[:query][:filtered][:query] ||= {bool: {must: []}}
+      @query[:query][:filtered][:query][:bool][:must] << query.to_hash
     end
   end
 end

@@ -18,13 +18,13 @@ class TestChainableCalls < MiniTest::Test
 
   def test_with_not_filter
     query = @query.queries.search("hi").filters.term.not(a: 1, _cache: true)
-    assert_equal query.build, {query: {filtered: {query: {multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "hi"}}, filter: {and: [{not: {filter: {term: {a: 1, _cache: true}}}}]}}}}
+    assert_equal query.build, {query: {filtered: {query: {bool: {must: [{multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "hi"}}]}}, filter: {and: [{not: {filter: {term: {a: 1, _cache: true}}}}]}}}}
   end
 
   def test_apply_kinds_of_query
     query = @query.filters.term(a: 1).queries.search("hello", operator: "or").build
     terms = query[:query][:filtered][:filter][:and]
-    search = query[:query][:filtered][:query][:multi_match]
+    search = query[:query][:filtered][:query][:bool][:must][0][:multi_match]
     assert_equal terms, [{term: {a: 1}}]
     assert_equal search, {fields: "_all", operator: "or", type: "best_fields", query: "hello"}
   end

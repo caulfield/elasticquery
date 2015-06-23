@@ -27,9 +27,9 @@ class TestExistsCase < MiniTest::Test
     params = {query: "Mark", required: "name"}
     actual = UserQuery.new(params).build
 
-    expected_query = {multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "Mark"}}
+    expected_queries = [{multi_match: {fields: "_all", operator: "and", type: "best_fields", query: "Mark"}}]
     expected_filters = [{exists: {field: "name"}}]
-    assert_equal expected_query, actual[:query][:filtered][:query]
+    assert_equal expected_queries, actual[:query][:filtered][:query][:bool][:must]
     assert_equal expected_filters, actual[:query][:filtered][:filter][:and]
   end
 
