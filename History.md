@@ -1,4 +1,6 @@
-## Elasticquery (master)
+## Master
+
+## Elasticquery 0.1.3 (24 June 2015)
 
 * Separate all filters to filters and queries. Rename search to multi_match. Change dsl for using explisit rule type.
 
