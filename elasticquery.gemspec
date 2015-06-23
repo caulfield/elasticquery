@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Powerful and flexible elasticsearch query factory for you ruby application}
   spec.homepage      = "https://github.com/caulfield/elasticquery"
   spec.license       = "MIT"
+  spec.required_ruby_version = ">= 2.0.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -25,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "minitest-reporters"
   spec.add_development_dependency "codeclimate-test-reporter"
+  spec.add_development_dependency "elasticsearch-model"
 end

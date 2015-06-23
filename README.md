@@ -217,6 +217,18 @@ end
 ChildQuery.build({user_id: 1, category_id: 14}) => # the same as in previous example
 ```
 
+- Elasticsearch::Model support with `es` shortcut
+
+```ruby
+class Article
+  include Elasticsearch::Model
+  extend Elasticquery::Es
+end
+
+Article.es.filters.term(user_id: 12).with("published_at").queries.search("Verge").results # => collection of "hits"
+Article.es.filters.term(user_id: 12).with("published_at").queries.search("Verge").records # => collection of records from db
+```
+
 [elasticsearch_rails]: https://github.com/elasticsearch/elasticsearch-rails
 [demo]: http://elasticquery-demo.herokuapp.com
 [bundler]: http://bundler.io/
