@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Elasticquery : User oriented elastic searh query generator">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Elasticquery</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/caulfield/elasticquery">View on GitHub</a>
+
+          <h1 id="project_title">Elasticquery</h1>
+          <h2 id="project_tagline">User oriented elastic searh query generator</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/caulfield/elasticquery/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/caulfield/elasticquery/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="elasticquery" class="anchor" href="#elasticquery" aria-hidden="true"><span class="octicon octicon-link"></span></a>Elasticquery</h1>
+
+<p><a href="http://badge.fury.io/rb/elasticquery"><img src="https://badge.fury.io/rb/elasticquery.svg" alt="Gem Version"></a>
+<a href="https://travis-ci.org/caulfield/elasticquery"><img src="https://travis-ci.org/caulfield/elasticquery.svg?branch=master" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/caulfield/elasticquery"><img src="https://codeclimate.com/github/caulfield/elasticquery/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/caulfield/elasticquery"><img src="https://codeclimate.com/github/caulfield/elasticquery/badges/coverage.svg" alt="Test Coverage"></a></p>
+
+<p>A module for elasticsearch-rails <a href="https://github.com/elasticsearch/elasticsearch-rails">libraries</a> like as user-friendly query generator.</p>
+
+<h2>
+<a id="abstract" class="anchor" href="#abstract" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abstract</h2>
+
+<p>Elastic query ruby DSL is not a fresh idea. <code>elasticsearch-rails</code> has fully flexible language and recommends to use json generators for building complex queries. I hope, in most cases you don't need full complex setup. Elasticquery going to process your form parameters and build valid query using <code>Filters</code> and <code>Queries</code> elastic query methods. All rules are joined by <code>AND</code> condition, invalid or blank rules are ignored.</p>
+
+<p>Elasticquery supports <code>term</code> (usable with  HTML <code>select</code> tag), <code>range</code>, <code>exists</code> and <code>missing</code>. <code>multi_match</code> query for simple index searching. All filters and queries are configurable. You are able to inherit your forms(<code>Elasticquery::Base objects</code>) and use chains event directly within your models.</p>
+
+<p><strong>Elasticquery is in active development. I recommend to use it CAREFULLY for production</strong></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>To install using <a href="http://bundler.io/">Bundler</a> grab the latest stable version:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>elasticquery<span class="pl-pds">'</span></span></pre></div>
+
+<p>To manually install <code>elasticquery</code> via <a href="https://rubygems.org/">Rubygems</a> simply gem install:</p>
+
+<div class="highlight highlight-bash"><pre>gem install elasticquery</pre></div>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<h3>
+<a id="first-instruction" class="anchor" href="#first-instruction" aria-hidden="true"><span class="octicon octicon-link"></span></a>First instruction</h3>
+
+<p>Elasticquery was designed to be customized as you need to. Providing simple methods it allows you to build flexible queries using <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html">Elastic Query DSL</a></p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">MyQuery<span class="pl-e"> &lt; Elasticquery::Base</span></span>
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      term <span class="pl-s"><span class="pl-pds">"</span>user.id<span class="pl-pds">"</span></span> =&gt; params[<span class="pl-c1">:user_id</span>]
+      range.<span class="pl-k">not</span> <span class="pl-c1">:age</span>, <span class="pl-c1">gte:</span> <span class="pl-c1">18</span>
+    <span class="pl-k">end</span>
+    queries <span class="pl-k">do</span>
+      multi_match params[<span class="pl-c1">:query</span>]
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
+
+<div class="highlight highlight-ruby"><pre>query <span class="pl-k">=</span> <span class="pl-c1">MyQuery</span>.<span class="pl-k">new</span> <span class="pl-c1">query:</span> <span class="pl-s"><span class="pl-pds">'</span>i typed<span class="pl-pds">'</span></span>, <span class="pl-c1">user_id:</span> <span class="pl-c1">5</span>
+query.build <span class="pl-c"># =&gt; query for elastic</span>
+<span class="pl-c1">Article</span>.search query.build <span class="pl-c"># =&gt; returns result </span></pre></div>
+
+<h2>
+<a id="currently-you-have" class="anchor" href="#currently-you-have" aria-hidden="true"><span class="octicon octicon-link"></span></a>Currently you have</h2>
+
+<h3>
+<a id="filters" class="anchor" href="#filters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Filters</h3>
+
+<p><a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-term-filter.html">Term</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># Simple one term filter</span>
+  term <span class="pl-c1">category:</span> <span class="pl-s"><span class="pl-pds">'</span>Rock<span class="pl-pds">'</span></span>
+
+  <span class="pl-c"># _cache option support</span>
+  term <span class="pl-c1">category:</span> <span class="pl-s"><span class="pl-pds">'</span>Soul<span class="pl-pds">'</span></span>, <span class="pl-c1">_cache:</span> <span class="pl-c1">false</span>
+
+  <span class="pl-c"># Blank values are skipped. This query returns all records</span>
+  term <span class="pl-c1">name:</span> <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span></pre></div>
+
+<p><a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-terms-filter.html">Terms</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># Standard terms options</span>
+  terms <span class="pl-c1">a:</span> <span class="pl-c1">1</span>, <span class="pl-c1">b:</span> <span class="pl-c1">2</span>
+
+  <span class="pl-c"># Skip empty values</span>
+  terms <span class="pl-c1">a:</span> <span class="pl-c1">1</span>, <span class="pl-c1">b:</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> <span class="pl-c"># =&gt; {a: 1} wil be passed</span>
+
+  <span class="pl-c"># Blank terms are skipped</span>
+  terms <span class="pl-c1">a:</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>, <span class="pl-c1">b:</span> <span class="pl-c1">nil</span> <span class="pl-c"># =&gt; match_all will be executed</span>
+
+  <span class="pl-c"># _cache and execution support</span>
+  terms <span class="pl-c1">a:</span> <span class="pl-c1">1</span>, <span class="pl-c1">b:</span> <span class="pl-c1">2</span>, <span class="pl-c1">_cache:</span> <span class="pl-c1">false</span>, <span class="pl-c1">execution:</span> <span class="pl-s"><span class="pl-pds">"</span>or<span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># where alias. Usable in chain calls</span>
+  where <span class="pl-c1">a:</span> <span class="pl-c1">1</span>, <span class="pl-c1">b:</span> <span class="pl-c1">2</span>, <span class="pl-c1">c:</span> <span class="pl-c1">3</span></pre></div>
+
+<p><a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-range-query.html">Range</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># One side range</span>
+  range <span class="pl-c1">:age</span>, <span class="pl-c1">gte:</span> <span class="pl-c1">18</span>
+
+  <span class="pl-c"># Double sides range</span>
+  range <span class="pl-c1">:volume</span>, <span class="pl-c1">gte:</span> <span class="pl-c1">1</span>, <span class="pl-c1">lte:</span> <span class="pl-c1">100</span>
+
+  <span class="pl-c"># _cache and execution options support</span>
+  range <span class="pl-c1">:volume</span>, <span class="pl-c1">gte:</span> <span class="pl-c1">1</span>, <span class="pl-c1">lte:</span> <span class="pl-c1">100</span>, <span class="pl-c1">_cache:</span> <span class="pl-c1">true</span>, <span class="pl-c1">execution:</span> <span class="pl-s"><span class="pl-pds">"</span>fielddata<span class="pl-pds">"</span></span></pre></div>
+
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-filter.html">Exists</a>
+  <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-missing-filter.html">Missing</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># Field existence check</span>
+  exists <span class="pl-s"><span class="pl-pds">"</span>last_name<span class="pl-pds">"</span></span>
+  missing <span class="pl-s"><span class="pl-pds">"</span>last_name<span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># Blank value skipped</span>
+  exists <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+  missing <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># Has with alias</span>
+  with <span class="pl-s"><span class="pl-pds">'</span>first_name<span class="pl-pds">'</span></span>
+  without <span class="pl-s"><span class="pl-pds">'</span>first_name<span class="pl-pds">'</span></span></pre></div>
+
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-not-filter.html">Not</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># Blank values are skipped. This query returns all records</span>
+  range.<span class="pl-k">not</span> <span class="pl-c1">:age</span>, <span class="pl-c1">lte:</span> <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span>, <span class="pl-c1">gte:</span> <span class="pl-c1">nil</span>
+
+  <span class="pl-c"># Term exclusion</span>
+  term.<span class="pl-k">not</span> <span class="pl-c1">category:</span> <span class="pl-s"><span class="pl-pds">'</span>Rap<span class="pl-pds">'</span></span>
+
+  <span class="pl-c"># Terms exclusion</span>
+  terms.<span class="pl-k">not</span> <span class="pl-c1">category:</span> <span class="pl-s"><span class="pl-pds">'</span>Rap<span class="pl-pds">'</span></span>, <span class="pl-c1">name:</span> <span class="pl-s"><span class="pl-pds">"</span>Guf<span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># 'Exists not' uses missing</span>
+  with.<span class="pl-k">not</span> <span class="pl-c">#=&gt; returns missing filter</span></pre></div>
+
+<p>All filters are joined by <strong>AND</strong> filter.</p>
+
+<h2>
+<a id="queries" class="anchor" href="#queries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Queries</h2>
+
+<p><a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html">MultiMatch</a></p>
+
+<div class="highlight highlight-ruby"><pre>  <span class="pl-c"># Simple all fields search in your index</span>
+  multi_match <span class="pl-s"><span class="pl-pds">'</span>developers<span class="pl-pds">'</span></span>
+
+  <span class="pl-c"># The same as above</span>
+  multi_match <span class="pl-s"><span class="pl-pds">'</span>developers<span class="pl-pds">'</span></span>, <span class="pl-c1">fields:</span> <span class="pl-s"><span class="pl-pds">"</span>_all<span class="pl-pds">"</span></span>, <span class="pl-c1">operator:</span> <span class="pl-s"><span class="pl-pds">"</span>and<span class="pl-pds">"</span></span>, <span class="pl-c1">type:</span> <span class="pl-s"><span class="pl-pds">"</span>best_fields<span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># Configure fields</span>
+  multi_match <span class="pl-s"><span class="pl-pds">'</span>Jordan<span class="pl-pds">'</span></span>, <span class="pl-c1">fields:</span> [<span class="pl-s"><span class="pl-pds">'</span>first_name<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>last_name<span class="pl-pds">'</span></span>], <span class="pl-c1">operator:</span> <span class="pl-s"><span class="pl-pds">"</span>or<span class="pl-pds">"</span></span>
+
+  <span class="pl-c"># Blank values are skipped. This query returns all records</span>
+  multi_match <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>
+
+  <span class="pl-c"># Alias as search</span>
+  search <span class="pl-s"><span class="pl-pds">'</span>Hello!<span class="pl-pds">'</span></span></pre></div>
+
+<h3>
+<a id="extended-instruction" class="anchor" href="#extended-instruction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extended instruction</h3>
+
+<p>There are multiple ways to organize your query, using chaining calls, or custom filters.</p>
+
+<ul>
+<li>Chain calls</li>
+</ul>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-c1">PeopleQuery</span>.<span class="pl-k">new</span>.queries.multi_match(<span class="pl-s"><span class="pl-pds">'</span>hi<span class="pl-pds">'</span></span>, <span class="pl-c1">operator:</span> <span class="pl-c1">:or</span>).filters.term(<span class="pl-c1">age:</span> <span class="pl-c1">21</span>).build <span class="pl-c"># =&gt; returns hash</span>
+<span class="pl-c1">Query</span>.<span class="pl-k">new</span>.queries.<span class="pl-k">/</span>queries<span class="pl-k">-</span>chain<span class="pl-k">/</span>.filters.<span class="pl-k">/</span>filters<span class="pl-k">-</span>chain<span class="pl-k">/</span></pre></div>
+
+<ul>
+<li>Class methods</li>
+</ul>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">PeopleQuery<span class="pl-e"> &lt; Elasticquery::Base</span></span>
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      range <span class="pl-c1">:age</span>, <span class="pl-c1">lte:</span> prepare_age(params[<span class="pl-c1">:max_age</span>])
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+
+  <span class="pl-k">protected</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">prepare_age</span>(<span class="pl-smi">param</span>)
+    param.to_i
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+<span class="pl-c1">PeopleQuery</span>.build(<span class="pl-c1">max_age:</span> <span class="pl-s"><span class="pl-pds">'</span>42<span class="pl-pds">'</span></span>) <span class="pl-c"># =&gt; result</span></pre></div>
+
+<ul>
+<li>Multiple <code>filtered</code> blocks</li>
+</ul>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">ChildQuery<span class="pl-e"> &lt; Elasticquery::Base</span></span>
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      term <span class="pl-c1">:'category.id'</span> =&gt; params[<span class="pl-c1">:category_id</span>]
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      term <span class="pl-c1">:'author.id'</span> =&gt; <span class="pl-c1">User</span>.find(params[<span class="pl-c1">:user_id</span>]).name
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+<span class="pl-c1">ChildQuery</span>.build({<span class="pl-c1">user_id:</span> <span class="pl-c1">1</span>, <span class="pl-c1">category_id:</span> <span class="pl-c1">14</span>}) =&gt; returns both user <span class="pl-k">and</span> category filters</pre></div>
+
+<ul>
+<li>Query inheritance</li>
+</ul>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">ParentQuery<span class="pl-e"> &lt; Elasticquery::Base</span></span>
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      term <span class="pl-c1">:'category.id'</span> =&gt; params[<span class="pl-c1">:category_id</span>]
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-k">class</span> <span class="pl-en">ChildQuery<span class="pl-e"> &lt; ParentQuery</span></span>
+  filtered <span class="pl-k">do </span>|<span class="pl-smi">params</span>|
+    filters <span class="pl-k">do</span>
+      term <span class="pl-c1">:'author.id'</span> =&gt; <span class="pl-c1">User</span>.find(params[<span class="pl-c1">:user_id</span>]).name
+    <span class="pl-k">end</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">ChildQuery</span>.build({<span class="pl-c1">user_id:</span> <span class="pl-c1">1</span>, <span class="pl-c1">category_id:</span> <span class="pl-c1">14</span>}) =&gt; <span class="pl-c"># the same as in previous example</span></pre></div>
+
+<ul>
+<li>Elasticsearch::Model support with <code>es</code> shortcut</li>
+</ul>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Article</span>
+  <span class="pl-k">include</span> <span class="pl-c1">Elasticsearch</span>::<span class="pl-c1">Model</span>
+  <span class="pl-k">extend</span> <span class="pl-c1">Elasticquery</span>::<span class="pl-c1">Es</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">Article</span>.es.filters.term(<span class="pl-c1">user_id:</span> <span class="pl-c1">12</span>).with(<span class="pl-s"><span class="pl-pds">"</span>published_at<span class="pl-pds">"</span></span>).queries.search(<span class="pl-s"><span class="pl-pds">"</span>Verge<span class="pl-pds">"</span></span>).results <span class="pl-c"># =&gt; collection of "hits"</span>
+<span class="pl-c1">Article</span>.es.filters.term(<span class="pl-c1">user_id:</span> <span class="pl-c1">12</span>).with(<span class="pl-s"><span class="pl-pds">"</span>published_at<span class="pl-pds">"</span></span>).queries.search(<span class="pl-s"><span class="pl-pds">"</span>Verge<span class="pl-pds">"</span></span>).records <span class="pl-c"># =&gt; collection of records from db</span></pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Elasticquery maintained by <a href="https://github.com/caulfield">caulfield</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
