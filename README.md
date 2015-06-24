@@ -7,7 +7,15 @@
 
 A module for elasticsearch-rails [libraries][elasticsearch_rails] like as user-friendly query generator.
 
-## Instalation
+## Abstract
+
+Elastic query ruby DSL is not a fresh idea. `elasticsearch-rails` has fully flexible language and recommends to use json generators for building complex queries. I hope, in most cases you don't need full complex setup. Elasticquery going to process your form parameters and build valid query using `Filters` and `Queries` elastic query methods. All rules are joined by `AND` condition, invalid or blank rules are ignored.
+
+Elasticquery supports `term` (usable with  HTML `select` tag), `range`, `exists` and `missing`. `multi_match` query for simple index searching. All filters and queries are configurable.
+
+**Elasticquery is in active development. I recommend to use it CAREFULLY for production**
+
+## Installation
 
 To install using [Bundler][bundler] grab the latest stable version:
 
